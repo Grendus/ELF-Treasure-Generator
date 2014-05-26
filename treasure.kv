@@ -1,0 +1,23 @@
+#:kivy 1.7.2
+
+<TreasureDisplay>:
+	treasure_name: treasure_name_label
+	treasure_table_display: treasure_table_stack_layout
+	Label:
+		id: treasure_name_label
+		font_size: 30
+		center_x: root.width/3
+		top: root.top
+	StackLayout:
+		id: treasure_table_stack_layout
+		top: root.top-100
+		width: root.width*5/6
+	StackLayout:
+		id: next_tresaure_stack_layout
+		top:root.top
+		center_x: root.width*11/12
+		width: root.width/6
+		Button:
+			size_hint:1,None
+			width: root.width/6+50
+			text:"H"
