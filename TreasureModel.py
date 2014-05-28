@@ -8,7 +8,7 @@ class TreasureModel(object):
 	def get_current_roll(self):
 		return self.current_roll
 
-	def roll(self, item_number=[]):
+	def roll(self, item_number=[], roll_number=False):
 		roll_data = self.current_roll
 
 		for x in item_number:
@@ -38,11 +38,12 @@ class TreasureModel(object):
 				number_of_treasures = 0
 				for x in range(int(num_dice)):
 					number_of_treasures += random.randint(1,int(type_dice))+int(bonus)
+
 		for x in range(number_of_treasures):
 			if isinstance(roll_data[1], basestring):
-				next_roll = self.factory.roll_once([roll_data[1]])
+				next_roll = self.factory.roll_once([roll_data[1]],roll_number)
 			else:
-				next_roll = self.factory.roll_once(roll_data[1][0][1])
+				next_roll = self.factory.roll_once(roll_data[1][0][1],roll_number)
 			if next_roll:
 				roll_data.append(next_roll)
 		return next_roll

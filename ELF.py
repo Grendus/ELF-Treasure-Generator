@@ -121,7 +121,7 @@ start = {
 								},
 							"Advanced":
 								{
-									1:[2,["Treasure"]],
+									1:[[2,["Treasure"]]],
 									3:"Greater Artifact",
 									5:"Lesser Artifact",
 									8:"Jewels",

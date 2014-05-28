@@ -11,7 +11,7 @@ class TreasureFactory(object):
 			table = table[x]
 		return table
 	
-	def roll_once(self, table_name):
+	def roll_once(self, table_name, roll_number = False):
 		try:
 			#Parse down to the selected table
 			table = self.table
@@ -21,7 +21,10 @@ class TreasureFactory(object):
 			#Roll on the table. If there isn't an entry for what you rolled,
 			#keep adding 1 until you reach something there's an entry for or
 			#or you run out of entries
-			initial_roll = roll = random.randint(1,sorted(table.keys())[-1])
+			if roll_number:
+				initial_roll = roll = roll_number
+			else:
+				initial_roll = roll = random.randint(1,sorted(table.keys())[-1])
 			while roll<=sorted(table.keys())[-1]:
 				try:
 					return [initial_roll,table[roll],table]
