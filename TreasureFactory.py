@@ -1,4 +1,5 @@
 import random
+import re
 
 class TreasureFactory(object):
 	def __init__(self, table, flags=[]):
@@ -43,3 +44,46 @@ class TreasureFactory(object):
 						return attempted_roll
 		except KeyError:
 			pass
+
+	#parses a string such as "Bonus 25" or "2d12+3" into a randomly generated integer
+	def get_number(self, number):
+		try:
+			return int(number)
+		except ValueError:
+			roll_type = self.roll_once([number])
+
+			#If rolling on the table returns a number, return it.
+			try:
+				return roll_type[1]
+			except ValueError:
+				pass
+
+			#if the value to parse is a table in the current schema, get the roll type value out of the response, otherwise the value to parse was the roll type value
+			if roll_type:
+				roll_type = roll_type[1]
+			else:
+				roll_type = number
+
+			#Fun with regular expressions. This splits a string such as "1d12-2" into '1','12','-','2'
+			parsed_roll = re.compile(r'(\d+)d(\d+)([+-/*//])*(\d*)').match(roll_type)
+
+			return_value = 0
+			try:
+				for x in range(int(parsed_roll.group(1))):
+					return_value += random.randint(1,int(parsed_roll.group(2)))
+			except AttributeError:
+				print(number, roll_type)
+
+			try:
+				if parsed_roll.group(3) == '+':
+					return_value += int(parsed_roll.group(4))
+				elif parsed_roll.group(3) == '-':
+					return_value -= int(parsed_roll.group(4))
+				elif parsed_roll.group(3) == '*':
+					return_value *= int(parsed_roll.group(4))
+				elif parsed_roll.group(3) == '/':
+					return_value /= int(parsed_roll.group(4))
+			except TypeError:
+				pass
+
+			return return_value
